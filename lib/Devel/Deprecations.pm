@@ -44,7 +44,7 @@ This will always warn about 32 bit perl or a really old perl:
 =head1 DEPRECATION ARGUMENTS
 
 Each deprecation has a name, which can be optionally followed by a hash-ref of
-arguments. All deprecations should support:
+arguments. All deprecations automatically support:
 
 =over
 
@@ -73,7 +73,8 @@ meaning "don't do this".
 
 Of those three only the most severe will be emitted.
 
-Plugins can support any other arguments they wish.
+Arguments with names beginning with an underscore are reserved for internal
+use. Plugins can support any other arguments they wish.
 
 =head1 CONTENT OF WARNINGS / FATAL ERRORS
 
@@ -90,15 +91,15 @@ C<$reason> is defined in the plugin's C<reason()> method.
 
 =head2 Initial warning
 
-C<Deprecation warning! ${date}In $filename on line $line: $reason>
+C<Deprecation warning! ${date}In $filename on line $line: $reason\n>
 
 =head2 "Unsupported" warning
 
-C<Unsupported! In $filename on line $line: $reason>
+C<Unsupported! In $filename on line $line: $reason\n>
 
 =head2 Fatal error
 
-C<Unsupported! In $filename on line $line: $reason>
+C<Unsupported! In $filename on line $line: $reason\n>
 
 =cut
 
@@ -110,33 +111,79 @@ sub import {
         while(@args) {
             my $plugin = 'Devel::Deprecations::Plugin::'.shift(@args);
             my $plugin_args = ref($args[0]) ? shift(@args) : {};
+            $plugin_args->{_source} = {
+                filename => (caller(1))[1],
+                line     => (caller(1))[2]
+            };
 
             Module::Load::load($plugin);
-            die(__PACKAGE__.": plugin $plugin doesn't implement all it needs to\n") unless(
-                $plugin->isa(__PACKAGE__) &&
-                eval {
-                    $plugin->reason; $plugin->is_deprecated; 1;
-                }
-            );
+            my @errors = ();
+            push @errors, "doesn't inherit from ".__PACKAGE__
+                unless($plugin->isa(__PACKAGE__));
+            push @errors, "doesn't implement 'reason()'"
+                unless($plugin->can('reason'));
+            push @errors, "doesn't implement 'is_deprecated()'"
+                unless($plugin->can('is_deprecated'));
+            die(join("\n",
+                __PACKAGE__.": plugin $plugin doesn't implement all it needs to",
+                map { "  $_" } @errors
+            )."\n")
+                if(@errors);
             $plugin->import($plugin_args);
         }
     } else {
         # when called on a subclass ...
         my $args = $args[0];
         $args->{warn_from} ||= '1970-01-01';
-        my $_froms = {
+        my %_froms = (
             map {
                 $_ => blessed($args->{$_}) ? $args->{$_} : DateTime::Format::ISO8601->parse_datetime($args->{$_})
             } grep {
                 exists($args->{$_})
             } qw(warn_from unsupported_from fatal_from)
-        };
+        );
         delete($args->{$_}) foreach(qw(warn_from unsupported_from fatal_from));
         if($class->is_deprecated($args)) {
             my $reason = $class->reason();
-            ...
+            my $now = DateTime->now();
+            if($_froms{fatal_from} && $_froms{fatal_from} < $now) {
+                die(_fatal_msg(
+                    %{$args->{_source}},
+                    reason => $reason
+                ));
+            } elsif($_froms{unsupported_from} && $_froms{unsupported_from} < $now) {
+                warn(_unsupported_msg(
+                    %{$args->{_source}},
+                    reason => $reason
+                ));
+            } elsif($_froms{warn_from} && $_froms{warn_from} < $now) {
+                warn(_warn_msg(
+                    %{$args->{_source}},
+                    reason => $reason,
+                    date   => (
+                        sort { $a <=> $b }
+                        map  { $_froms{$_} }
+                        grep { $_froms{$_} }
+                        qw(unsupported_from fatal_from)
+                    )[0] || undef
+                ));
+            }
         }
     }
+}
+
+sub _fatal_msg {
+    my %args = @_;
+    return "Unsupported! In $args{filename} on line $args{line}: $args{reason}\n";
+}
+
+sub _unsupported_msg { return _fatal_msg(@_); }
+
+sub _warn_msg {
+    my %args = @_;
+    return "Deprecation warning! ".
+           ($args{date} ? 'From '.$args{date}->iso8601().': ' : '').
+           "In $args{filename} on line $args{line}: $args{reason}\n";
 }
 
 =head1 FUNCTIONS
@@ -158,8 +205,8 @@ them will result in fatal errors:
 
 =item reason
 
-Returns a brief string explaining the deprecation. For example "32 bit perl"
-or "Perl too old".
+Returns a brief string explaining the deprecation. For example "32 bit
+integers" or "Perl too old".
 
 =item is_deprecated
 

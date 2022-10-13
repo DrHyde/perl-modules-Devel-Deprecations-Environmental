@@ -5,7 +5,7 @@ use warnings;
 
 use base 'Devel::Deprecations';
 
-sub reason { "32 bit perl" }
+sub reason { "32 bit integers" }
 sub is_deprecated { ~0 == 4294967295 }
 
 1;
