@@ -20,7 +20,7 @@ BEGIN {
     like(
         $warnings[0],
         qr/32 bit integers/,
-        "warned about 43 bit integers"
+        "warned about 32 bit integers"
     );
     @warnings = ();
 }
