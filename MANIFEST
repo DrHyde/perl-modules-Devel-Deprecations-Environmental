@@ -4,3 +4,12 @@ CHANGELOG
 ARTISTIC.txt
 GPL2.txt
 MANIFEST.SKIP
+lib/Devel/Deprecations.pm
+lib/Devel/Deprecations/Plugin/OldPerl.pm
+lib/Devel/Deprecations/Plugin/Bits32.pm
+t/lib/Devel/Deprecations/Plugin/Internal/Bits64.pm
+t/lib/Devel/Deprecations/Plugin/Internal/Never.pm
+t/lib/Devel/Deprecations/Plugin/Internal/Always.pm
+t/32-bit.t
+t/64-bit.t
+t/basic-warning-file-and-line-number.t
