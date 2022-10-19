@@ -112,8 +112,8 @@ sub import {
             my $plugin = 'Devel::Deprecations::Plugin::'.shift(@args);
             my $plugin_args = ref($args[0]) ? shift(@args) : {};
             $plugin_args->{_source} = {
-                filename => (caller(1))[1],
-                line     => (caller(1))[2]
+                filename => (caller(0))[1],
+                line     => (caller(0))[2]
             };
 
             Module::Load::load($plugin);

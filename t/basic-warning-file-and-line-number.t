@@ -13,24 +13,35 @@ sub _warning_string {
 my @warnings;
 BEGIN { $SIG{__WARN__} = sub { @warnings = @_ }; }
 
-# line 37 "i-like-weasels"
+# make sure it works all proper-like at compile-time
+
+# line 37 "at-compile-time"
 use Devel::Deprecations 'Internal::Always';
 BEGIN {
     is(
         $warnings[0],
-        _warning_string("i-like-weasels", 37, "always deprecated"),
-        _warning_string("i-like-weasels", 37, "always deprecated"),
+        _warning_string("at-compile-time", 37, "always deprecated"),
+        _warning_string("at-compile-time", 37, "always deprecated"),
     );
-    @warnings = ();
 }
 
-use Devel::Deprecations 'Internal::Never';
-BEGIN {
-    is(
-        scalar(@warnings),
-        0,
-        'no deprecation warning emitted'
-    );
-}
+# ... and at run-time, just cos that makes testing easier
+
+@warnings = ();
+# line 73 "at-run-time"
+Devel::Deprecations->import('Internal::Always');
+is(
+    $warnings[0],
+    _warning_string("at-run-time", 73, "always deprecated"),
+    _warning_string("at-run-time", 73, "always deprecated"),
+);
+
+@warnings = ();
+Devel::Deprecations->import('Internal::Never');
+is(
+    scalar(@warnings),
+    0,
+    'no deprecation warning emitted'
+);
 
 done_testing;
