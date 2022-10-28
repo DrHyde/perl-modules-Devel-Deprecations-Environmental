@@ -11,8 +11,10 @@ WriteMakefile(
   VERSION_FROM => 'lib/Devel/Deprecations.pm',
   PREREQ_PM    => {
     'Test::More'                => 0.96, # done_testing and subtests
-    'Test::Warnings'            => 0.026,
+    'Test::Exception'           => 0.43,
+    'Test::Time'                => 0.092,
     'Module::Load'              => 0,
+    'DateTime'                  => 0,
     'DateTime::Format::ISO8601' => 0,
     'Scalar::Util'              => 0,
   },
