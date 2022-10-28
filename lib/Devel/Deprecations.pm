@@ -143,6 +143,21 @@ sub import {
             } qw(warn_from unsupported_from fatal_from)
         );
         delete($args->{$_}) foreach(qw(warn_from unsupported_from fatal_from));
+
+        # check that warn/unsupported/fatal are ordered correctly in time
+        foreach my $pair (
+            [qw(warn_from        unsupported_from)],
+            [qw(warn_from        fatal_from)],
+            [qw(unsupported_from fatal_from)],
+        ) {
+            if(
+                exists($_froms{$pair->[0]}) && exists($_froms{$pair->[1]}) &&
+                !($_froms{$pair->[0]} < $_froms{$pair->[1]})
+            ) {
+                die(sprintf("%s: %s must be before %s\n", __PACKAGE__, @{$pair}));
+            }
+        }
+
         if($class->is_deprecated($args)) {
             my $reason = $class->reason();
             my $now = DateTime->now();

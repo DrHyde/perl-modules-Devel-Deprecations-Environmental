@@ -13,3 +13,4 @@ t/lib/Devel/Deprecations/Plugin/Internal/Always.pm
 t/32-bit.t
 t/64-bit.t
 t/basic-warning-file-and-line-number.t
+t/time.t
