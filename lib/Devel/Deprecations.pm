@@ -159,7 +159,7 @@ sub import {
         }
 
         if($class->is_deprecated($args)) {
-            my $reason = $class->reason();
+            my $reason = $class->reason($args);
             my $now = DateTime->now();
             if($_froms{fatal_from} && $_froms{fatal_from} < $now) {
                 die(_fatal_msg(
@@ -214,7 +214,8 @@ for the C<Devel::Deprecations::Plugin::Internal::*> namespace.
 
 A plugin should inherit from C<Devel::Deprecation>, and implement the following
 methods, which will be called as class methods. Failure to define either of
-them will result in fatal errors:
+them will result in fatal errors. They will be passed the arguments hash-ref
+(with C<warn_from>, C<unsupported_from>, and C<fatal_from> removed):
 
 =over
 
@@ -225,9 +226,8 @@ integers" or "Perl too old".
 
 =item is_deprecated
 
-This will be passed the arguments hash (with C<warn_from>, C<unsupported_from>,
-and C<fatal_from> removed) and should return true or false for whether the
-environment matches the deprecation or not.
+This should return true or false for whether the environment matches the
+deprecation or not.
 
 =back
 

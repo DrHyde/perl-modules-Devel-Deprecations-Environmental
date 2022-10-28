@@ -14,3 +14,8 @@ t/32-bit.t
 t/64-bit.t
 t/basic-warning-file-and-line-number.t
 t/time.t
+t/pod-coverage.t
+t/pod.t
+t/broken-plugin.t
+t/lib/Devel/Deprecations/Plugin/Internal/Broken.pm
+t/oldperl.t
