@@ -171,7 +171,7 @@ sub import {
                     %{$args->{_source}},
                     reason => $reason
                 ));
-            } elsif($_froms{warn_from} && $_froms{warn_from} < $now) {
+            } elsif($_froms{warn_from} < $now) { # warn_from always exists!
                 warn(_warn_msg(
                     %{$args->{_source}},
                     reason => $reason,

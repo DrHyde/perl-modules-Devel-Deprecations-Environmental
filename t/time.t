@@ -25,6 +25,16 @@ sub _warning_string {
 my @warnings;
 $SIG{__WARN__} = sub { push @warnings, @_ };
 
+subtest "no warn-times specified" => sub {
+    @warnings = ();
+    Devel::Deprecations->import('Internal::Always');
+    like(
+        $warnings[0],
+        qr/^Deprecation warning! In/,
+        $warnings[0],
+    );
+};
+
 subtest "not yet reached warn-time" => sub {
     Test::Time->import(time => $now);
 
