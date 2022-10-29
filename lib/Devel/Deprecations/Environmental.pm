@@ -19,17 +19,17 @@ A framework for managing deprecations of the environment in which your code runs
 
 =head1 SYNOPSIS
 
-This will load the Devel::Deprecations::Environmental::Plugin::Bits32 plugin and emit a
+This will load the Devel::Deprecations::Environmental::Plugin::Int32 plugin and emit a
 warning if running on a 32 bit system:
 
-    use Devel::Deprecations::Environmental qw(Bits32);
+    use Devel::Deprecations::Environmental qw(Int32);
 
 This will start warning about an impending deprecation on the 1st of February
 2023, upgrade that to a warning about being unsupported on the 1st of February
 2024, and upgrade that to a fatal error on the 1st of February 2025:
 
     use Devel::Deprecations::Environmental
-        Bits32 => {
+        Int32 => {
             warn_from        => '2023-02-01',
             unsupported_from => '2024-02-01',
             fatal_from       => '2025-02-01',
@@ -39,7 +39,7 @@ This will always warn about 32 bit perl or a really old perl:
 
     use Devel::Deprecations::Environmental
         OldPerl => { older_than => '5.14.0', },
-        'Bits32';
+        'Int32';
 
 =head1 DEPRECATION ARGUMENTS
 

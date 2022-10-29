@@ -1,4 +1,4 @@
-package Devel::Deprecations::Environmental::Plugin::Bits32;
+package Devel::Deprecations::Environmental::Plugin::Int32;
 
 use strict;
 use warnings;
@@ -9,7 +9,7 @@ our $VERSION = '1.000';
 
 =head1 NAME
 
-Devel::Deprecations::Environmental::Plugin::Bits32
+Devel::Deprecations::Environmental::Plugin::Int32
 
 =head1 DESCRIPTION
 
@@ -17,7 +17,7 @@ A plugin for L<Devel::Deprecations::Environmental> to emit warnings when perl ha
 
 =head1 SYNOPSIS
 
-    use Devel::Deprecations::Environmental qw(Bits32);
+    use Devel::Deprecations::Environmental qw(Int32);
 
 =head1 AUTHOR, LICENCE and COPYRIGHT
 

@@ -10,7 +10,7 @@ use lib 't/lib';
 my @warnings;
 $SIG{__WARN__} = sub { @warnings = @_ };
 
-Devel::Deprecations::Environmental->import('Internal::Bits64');
+Devel::Deprecations::Environmental->import('Internal::Int64');
 if(~0 == 4294967295) {
     is(scalar(@warnings), 0, "didn't gripe about this 32-bit machine being 64-bit");
 } else {

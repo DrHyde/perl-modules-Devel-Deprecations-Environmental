@@ -18,10 +18,10 @@ my $future_perl = sprintf("%d.%d.%d", $parts[0], $parts[1] + 2, 0);
 @warnings = ();
 Devel::Deprecations::Environmental->import(
     # these two always warn
-    ((~0 != 4294967295) ? 'Internal::Bits64' : 'Bits32'),
+    ((~0 != 4294967295) ? 'Internal::Int64' : 'Int32'),
     OldPerl => { older_than => $future_perl },
     # this one never warns
-    ((~0 == 4294967295) ? 'Internal::Bits64' : 'Bits32'),
+    ((~0 == 4294967295) ? 'Internal::Int64' : 'Int32'),
 );
 is(scalar(@warnings), 2, "got 2 warnings");
 like(

@@ -10,7 +10,7 @@ use lib 't/lib';
 my @warnings;
 $SIG{__WARN__} = sub { @warnings = @_ };
 
-Devel::Deprecations::Environmental->import('Bits32');
+Devel::Deprecations::Environmental->import('Int32');
 if(~0 != 4294967295) { # BUG! But what about 128-bit perl!
     is(scalar(@warnings), 0, "didn't gripe about this 64-bit machine being 32-bit");
 } else {

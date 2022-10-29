@@ -6,8 +6,8 @@ GPL2.txt
 MANIFEST.SKIP
 lib/Devel/Deprecations/Environmental.pm
 lib/Devel/Deprecations/Environmental/Plugin/OldPerl.pm
-lib/Devel/Deprecations/Environmental/Plugin/Bits32.pm
-t/lib/Devel/Deprecations/Environmental/Plugin/Internal/Bits64.pm
+lib/Devel/Deprecations/Environmental/Plugin/Int32.pm
+t/lib/Devel/Deprecations/Environmental/Plugin/Internal/Int64.pm
 t/lib/Devel/Deprecations/Environmental/Plugin/Internal/Never.pm
 t/lib/Devel/Deprecations/Environmental/Plugin/Internal/Always.pm
 t/32-bit.t

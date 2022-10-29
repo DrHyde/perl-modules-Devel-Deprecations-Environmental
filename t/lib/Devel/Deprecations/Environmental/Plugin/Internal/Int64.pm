@@ -1,4 +1,4 @@
-package Devel::Deprecations::Environmental::Plugin::Internal::Bits64;
+package Devel::Deprecations::Environmental::Plugin::Internal::Int64;
 
 use strict;
 use warnings;
