@@ -19,3 +19,4 @@ t/pod.t
 t/broken-plugin.t
 t/lib/Devel/Deprecations/Plugin/Internal/Broken.pm
 t/oldperl.t
+t/multi.t

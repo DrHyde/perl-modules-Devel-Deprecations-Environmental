@@ -20,7 +20,7 @@ A framework for managing deprecations
 =head1 SYNOPSIS
 
 This will load the Devel::Deprecations::Plugin::Bits32 plugin and emit a
-warning once if running on a 32 bit system:
+warning if running on a 32 bit system:
 
     use Devel::Deprecations qw(Bits32);
 
