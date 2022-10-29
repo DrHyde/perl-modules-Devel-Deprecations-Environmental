@@ -1,9 +1,9 @@
-package Devel::Deprecations::Plugin::OldPerl;
+package Devel::Deprecations::Environmental::Plugin::OldPerl;
 
 use strict;
 use warnings;
 
-use base 'Devel::Deprecations';
+use base 'Devel::Deprecations::Environmental';
 
 use Config;
 
@@ -11,17 +11,17 @@ our $VERSION = '1.000';
 
 =head1 NAME
 
-Devel::Deprecations::Plugin::OldPerl
+Devel::Deprecations::Environmental::Plugin::OldPerl
 
 =head1 DESCRIPTION
 
-A plugin for L<Devel::Deprecations> to emit warnings when perl is too old
+A plugin for L<Devel::Deprecations::Environmental> to emit warnings when perl is too old
 
 =head1 SYNOPSIS
 
 If you want to say that perl 5.14.0 is the earliest that you will support:
 
-    use Devel::Deprecations OldPerl => { older_than '5.14.0' }
+    use Devel::Deprecations::Environmental OldPerl => { older_than '5.14.0' }
 
 =head1 AUTHOR, LICENCE and COPYRIGHT
 

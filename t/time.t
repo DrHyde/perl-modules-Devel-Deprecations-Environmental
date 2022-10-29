@@ -5,7 +5,7 @@ use Test::More;
 use Test::Exception;
 use Test::Time;
 
-use Devel::Deprecations ();
+use Devel::Deprecations::Environmental ();
 use DateTime;
 
 use lib 't/lib';
@@ -27,7 +27,7 @@ $SIG{__WARN__} = sub { push @warnings, @_ };
 
 subtest "no warn-times specified" => sub {
     @warnings = ();
-    Devel::Deprecations->import('Internal::Always');
+    Devel::Deprecations::Environmental->import('Internal::Always');
     like(
         $warnings[0],
         qr/^Deprecation warning! In/,
@@ -39,11 +39,11 @@ subtest "not yet reached warn-time" => sub {
     Test::Time->import(time => $now);
 
     @warnings = ();
-    Devel::Deprecations->import(
+    Devel::Deprecations::Environmental->import(
         'Internal::Always' => { warn_from => $warn_time_object }
     );
     is(scalar(@warnings), 0, "not yet reached warn-time (as an object)");
-    Devel::Deprecations->import(
+    Devel::Deprecations::Environmental->import(
         'Internal::Always' => { warn_from => $warn_time_string }
     );
     is(scalar(@warnings), 0, "not yet reached warn-time (as a string)");
@@ -54,11 +54,11 @@ subtest "reached warn-time, no unsupported/fatal specified" => sub {
     sleep 2;
 
     @warnings = ();
-    Devel::Deprecations->import(
+    Devel::Deprecations::Environmental->import(
         'Internal::Always' => { warn_from => $warn_time_object }
     );
     is(scalar(@warnings), 1, "got one warning (time passed as object)");
-    Devel::Deprecations->import(
+    Devel::Deprecations::Environmental->import(
         'Internal::Always' => { warn_from => $warn_time_string }
     );
     is(scalar(@warnings), 2, "got one more warning (time passed as string)");
@@ -79,7 +79,7 @@ subtest "reached warn-time but not unsupported/fatal-time" => sub {
     sleep 2;
 
     @warnings = ();
-    Devel::Deprecations->import(
+    Devel::Deprecations::Environmental->import(
         'Internal::Always' => {
             warn_from        => $warn_time_object,
             unsupported_from => $unsupported_time_object,
@@ -100,7 +100,7 @@ subtest "reached warn-time and unsupported-time but not fatal-time" => sub {
     sleep 4;
 
     @warnings = ();
-    Devel::Deprecations->import(
+    Devel::Deprecations::Environmental->import(
         'Internal::Always' => {
             warn_from        => $warn_time_object,
             unsupported_from => $unsupported_time_object,
@@ -120,7 +120,7 @@ subtest "reached unsupported-time but not fatal-time (no warn-time)" => sub {
     sleep 4;
 
     @warnings = ();
-    Devel::Deprecations->import(
+    Devel::Deprecations::Environmental->import(
         'Internal::Always' => {
             unsupported_from => $unsupported_time_object,
             fatal_from       => $fatal_time_object
@@ -140,7 +140,7 @@ subtest "reached warn-time and unsupported-time and fatal-time" => sub {
 
     @warnings = ();
     dies_ok {
-        Devel::Deprecations->import(
+        Devel::Deprecations::Environmental->import(
             'Internal::Always' => {
                 warn_from        => $warn_time_object,
                 unsupported_from => $unsupported_time_object,
@@ -162,7 +162,7 @@ subtest "reached fatal-time (no warn/unsupported-time)" => sub {
 
     @warnings = ();
     dies_ok {
-        Devel::Deprecations->import(
+        Devel::Deprecations::Environmental->import(
             'Internal::Always' => {
                 fatal_from       => $fatal_time_object
             }
@@ -180,7 +180,7 @@ subtest "times out of order" => sub {
     Test::Time->import(time => $now);
 
     throws_ok {
-        Devel::Deprecations->import(
+        Devel::Deprecations::Environmental->import(
             'Internal::Always' => {
                 warn_from        => $warn_time_object,
                 unsupported_from => $warn_time_object,
@@ -190,7 +190,7 @@ subtest "times out of order" => sub {
     } qr/warn_from must be before unsupported_from/, 'warn < unsupported';
 
     throws_ok {
-        Devel::Deprecations->import(
+        Devel::Deprecations::Environmental->import(
             'Internal::Always' => {
                 warn_from        => $fatal_time_object,
                 fatal_from       => $warn_time_object
@@ -199,7 +199,7 @@ subtest "times out of order" => sub {
     } qr/warn_from must be before fatal_from/, 'warn < fatal';
 
     throws_ok {
-        Devel::Deprecations->import(
+        Devel::Deprecations::Environmental->import(
             'Internal::Always' => {
                 unsupported_from => $fatal_time_object,
                 fatal_from       => $unsupported_time_object

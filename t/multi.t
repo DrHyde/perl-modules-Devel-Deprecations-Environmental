@@ -5,7 +5,7 @@ use Test::More;
 use Test::Exception;
 
 use Config;
-use Devel::Deprecations ();
+use Devel::Deprecations::Environmental ();
 
 use lib 't/lib';
 
@@ -16,7 +16,7 @@ my @parts = split(/\./, $Config{version});
 my $future_perl = sprintf("%d.%d.%d", $parts[0], $parts[1] + 2, 0);
 
 @warnings = ();
-Devel::Deprecations->import(
+Devel::Deprecations::Environmental->import(
     # these two always warn
     ((~0 != 4294967295) ? 'Internal::Bits64' : 'Bits32'),
     OldPerl => { older_than => $future_perl },

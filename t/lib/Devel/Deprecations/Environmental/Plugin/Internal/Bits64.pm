@@ -1,9 +1,9 @@
-package Devel::Deprecations::Plugin::Internal::Bits64;
+package Devel::Deprecations::Environmental::Plugin::Internal::Bits64;
 
 use strict;
 use warnings;
 
-use base 'Devel::Deprecations';
+use base 'Devel::Deprecations::Environmental';
 
 sub reason { "64 bit integers" }
 

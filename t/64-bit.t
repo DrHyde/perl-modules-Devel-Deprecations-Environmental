@@ -3,14 +3,14 @@ use strict;
 
 use Test::More;
 
-use Devel::Deprecations ();
+use Devel::Deprecations::Environmental ();
 
 use lib 't/lib';
 
 my @warnings;
 $SIG{__WARN__} = sub { @warnings = @_ };
 
-Devel::Deprecations->import('Internal::Bits64');
+Devel::Deprecations::Environmental->import('Internal::Bits64');
 if(~0 == 4294967295) {
     is(scalar(@warnings), 0, "didn't gripe about this 32-bit machine being 64-bit");
 } else {

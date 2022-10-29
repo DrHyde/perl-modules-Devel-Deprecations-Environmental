@@ -15,7 +15,7 @@ BEGIN { $SIG{__WARN__} = sub { @warnings = @_ }; }
 # make sure it works all proper-like at compile-time
 
 # line 37 "at-compile-time"
-use Devel::Deprecations 'Internal::Always';
+use Devel::Deprecations::Environmental 'Internal::Always';
 BEGIN {
     is(
         $warnings[0],
@@ -28,7 +28,7 @@ BEGIN {
 
 @warnings = ();
 # line 73 "at-run-time"
-Devel::Deprecations->import('Internal::Always');
+Devel::Deprecations::Environmental->import('Internal::Always');
 is(
     $warnings[0],
     _warning_string("at-run-time", 73, "always deprecated"),
@@ -36,7 +36,7 @@ is(
 );
 
 @warnings = ();
-Devel::Deprecations->import('Internal::Never');
+Devel::Deprecations::Environmental->import('Internal::Never');
 is(
     scalar(@warnings),
     0,

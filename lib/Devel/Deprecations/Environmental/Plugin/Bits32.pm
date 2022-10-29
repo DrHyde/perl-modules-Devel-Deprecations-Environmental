@@ -1,23 +1,23 @@
-package Devel::Deprecations::Plugin::Bits32;
+package Devel::Deprecations::Environmental::Plugin::Bits32;
 
 use strict;
 use warnings;
 
-use base 'Devel::Deprecations';
+use base 'Devel::Deprecations::Environmental';
 
 our $VERSION = '1.000';
 
 =head1 NAME
 
-Devel::Deprecations::Plugin::Bits32
+Devel::Deprecations::Environmental::Plugin::Bits32
 
 =head1 DESCRIPTION
 
-A plugin for L<Devel::Deprecations> to emit warnings when perl has 32-bit integers
+A plugin for L<Devel::Deprecations::Environmental> to emit warnings when perl has 32-bit integers
 
 =head1 SYNOPSIS
 
-    use Devel::Deprecations qw(Bits32);
+    use Devel::Deprecations::Environmental qw(Bits32);
 
 =head1 AUTHOR, LICENCE and COPYRIGHT
 

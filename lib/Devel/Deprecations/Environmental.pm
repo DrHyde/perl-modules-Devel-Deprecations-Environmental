@@ -1,4 +1,4 @@
-package Devel::Deprecations;
+package Devel::Deprecations::Environmental;
 
 use strict;
 use warnings;
@@ -11,24 +11,24 @@ our $VERSION = '1.000';
 
 =head1 NAME
 
-Devel::Deprecations
+Devel::Deprecations::Environmental - deprecations for your code's surroundings
 
 =head1 DESCRIPTION
 
-A framework for managing deprecations
+A framework for managing deprecations of the environment in which your code runs
 
 =head1 SYNOPSIS
 
-This will load the Devel::Deprecations::Plugin::Bits32 plugin and emit a
+This will load the Devel::Deprecations::Environmental::Plugin::Bits32 plugin and emit a
 warning if running on a 32 bit system:
 
-    use Devel::Deprecations qw(Bits32);
+    use Devel::Deprecations::Environmental qw(Bits32);
 
 This will start warning about an impending deprecation on the 1st of February
 2023, upgrade that to a warning about being unsupported on the 1st of February
 2024, and upgrade that to a fatal error on the 1st of February 2025:
 
-    use Devel::Deprecations
+    use Devel::Deprecations::Environmental
         Bits32 => {
             warn_from        => '2023-02-01',
             unsupported_from => '2024-02-01',
@@ -37,7 +37,7 @@ This will start warning about an impending deprecation on the 1st of February
 
 This will always warn about 32 bit perl or a really old perl:
 
-    use Devel::Deprecations
+    use Devel::Deprecations::Environmental
         OldPerl => { older_than => '5.14.0', },
         'Bits32';
 
@@ -85,7 +85,7 @@ C<$date> will be C<From $unsupported_from: > or C<From $fatal_from: > (using
 whichever is earlier) if one of those is configured.
 
 C<$filename> and C<$line> will tell you the file and line on which
-C<Devel::Deprecations> is loaded.
+C<Devel::Deprecations::Environmental> is loaded.
 
 C<$reason> is defined in the plugin's C<reason()> method.
 
@@ -107,9 +107,9 @@ sub import {
     my $class = shift;
     my @args = @_;
     if($class eq __PACKAGE__) {
-        # when loading Devel::Deprecations itself ...
+        # when loading Devel::Deprecations::Environmental itself ...
         while(@args) {
-            my $plugin = 'Devel::Deprecations::Plugin::'.shift(@args);
+            my $plugin = 'Devel::Deprecations::Environmental::Plugin::'.shift(@args);
             my $plugin_args = ref($args[0]) ? shift(@args) : {};
             $plugin_args->{_source} = {
                 filename => (caller(0))[1],
@@ -209,8 +209,8 @@ with all specific deprecations handled by plugins.
 
 =head1 WRITING YOUR OWN PLUGINS
 
-The C<Devel::Deprecations::Plugin::*> namespace is yours to play in, except
-for the C<Devel::Deprecations::Plugin::Internal::*> namespace.
+The C<Devel::Deprecations::Environmental::Plugin::*> namespace is yours to play in, except
+for the C<Devel::Deprecations::Environmental::Plugin::Internal::*> namespace.
 
 A plugin should inherit from C<Devel::Deprecation>, and implement the following
 methods, which will be called as class methods. Failure to define either of

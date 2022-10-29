@@ -1,6 +1,6 @@
 use ExtUtils::MakeMaker;
 WriteMakefile(
-    NAME       => 'Devel::Deprecations',
+    NAME       => 'Devel::Deprecations::Environmental',
     META_MERGE => {
         license   => 'open_source',
         resources => {
@@ -8,7 +8,7 @@ WriteMakefile(
             bugtracker => 'https://github.com/DrHyde/perl-modules-Devel-Deprecations/issues',
         }
     },
-  VERSION_FROM => 'lib/Devel/Deprecations.pm',
+  VERSION_FROM => 'lib/Devel/Deprecations/Environmental.pm',
   PREREQ_PM    => {
     'Test::More'                => 0.96, # done_testing and subtests
     'Test::Exception'           => 0.43,
