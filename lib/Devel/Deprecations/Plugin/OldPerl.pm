@@ -44,8 +44,11 @@ sub is_deprecated {
     my $minimum_version = $_[-1]->{older_than} ||
         die(__PACKAGE__.": 'older_than' parameter is mandatory\n");
     my @minimum_version_parts = (split(/\./, "$minimum_version", 3), 0, 0)[0..2];
-    die(__PACKAGE__.": $minimum_version isn't a plausible perl version\n")
-        if(grep { /\D/a } @minimum_version_parts);
+
+    # can't use /\D/a because /a is a 5.14-ism
+    if(grep { /[^0-9]/ } @minimum_version_parts) {
+        die(__PACKAGE__.": $minimum_version isn't a plausible perl version\n")
+    }
 
     my @current_version_parts = split(/\./, $Config{version});
 

@@ -18,12 +18,12 @@ my $this_perl   = sprintf("%d.%d.%d", @parts);
 my $future_perl = sprintf("%d.%d.%d", $parts[0], $parts[1] + 2, 0);
 
 subtest "ridiculous invocations" => sub {
-    dies_ok { 
+    throws_ok {
         Devel::Deprecations->import('OldPerl')
-    } "no args";
-    dies_ok { 
+    } qr/parameter is mandatory/, "dies with no args";
+    throws_ok {
         Devel::Deprecations->import(OldPerl => { older_than => "a lemon" })
-    } "implausible version";
+    } qr/plausible perl version/, "dies with implausible version";
 };
 
 subtest "this perl ($this_perl) is OK" => sub {
