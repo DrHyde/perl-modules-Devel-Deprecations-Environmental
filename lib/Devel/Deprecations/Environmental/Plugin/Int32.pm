@@ -5,6 +5,8 @@ use warnings;
 
 use base 'Devel::Deprecations::Environmental';
 
+use Devel::CheckOS qw(os_is);
+
 our $VERSION = '1.000';
 
 =head1 NAME
@@ -35,6 +37,6 @@ This module is also free-as-in-mason software.
 =cut
 
 sub reason { "32 bit integers" }
-sub is_deprecated { ~0 == 4294967295 }
+sub is_deprecated { os_is('HWCapabilities::Int32') }
 
 1;

@@ -16,6 +16,7 @@ WriteMakefile(
     'Module::Load'              => 0,
     'DateTime'                  => 0,
     'DateTime::Format::ISO8601' => 0,
+    'Devel::CheckOS'            => 1.95, # HWCapabilities::Int{32,64}
     'Scalar::Util'              => 0,
   },
 );

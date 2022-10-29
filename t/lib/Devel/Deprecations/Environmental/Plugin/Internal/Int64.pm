@@ -5,9 +5,10 @@ use warnings;
 
 use base 'Devel::Deprecations::Environmental';
 
+use Devel::CheckOS qw(os_is);
+
 sub reason { "64 bit integers" }
 
-# BUG! Will break on 128 bit perl :-)
-sub is_deprecated { ~0 != 4294967295 }
+sub is_deprecated { os_is('HWCapabilities::Int64') }
 
 1;
