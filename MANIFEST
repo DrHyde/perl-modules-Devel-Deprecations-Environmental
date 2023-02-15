@@ -20,3 +20,7 @@ t/broken-plugin.t
 t/lib/Devel/Deprecations/Environmental/Plugin/Internal/Broken.pm
 t/oldperl.t
 t/multi.t
+lib/Devel/Deprecations/Environmental/MicroDateTime.pm
+t/time-with-datetime-objects.t
+t/inc/time-tests.pl
+t/time-with-mixed-objects.t
