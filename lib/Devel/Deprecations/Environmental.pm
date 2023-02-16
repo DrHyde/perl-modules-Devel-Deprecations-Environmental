@@ -177,7 +177,7 @@ sub import {
             grep { exists($_froms{$_}) }
             qw(fatal_from unsupported_from warn_from)
         ) {
-            $now = DateTime->from_epoch($now->epoch());
+            $now = DateTime->from_epoch(epoch => $now->epoch());
             $_froms{$_} = DateTime->from_epoch(epoch => $_froms{$_}->epoch())
                 foreach(grep { exists($_froms{$_}) && blessed($_froms{$_}) ne 'DateTime' } qw(fatal_from unsupported_from warn_from));
         }
