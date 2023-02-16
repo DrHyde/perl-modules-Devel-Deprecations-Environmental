@@ -10,8 +10,6 @@ use overload (
     fallback => 1,
 );
 
-use POSIX qw(strftime);
-
 our $VERSION = '1.000';
 
 sub _spaceship {
@@ -23,6 +21,36 @@ sub _spaceship {
 sub from_epoch {
     my($class, %args) = @_;
     return bless({ %args }, $class);
+}
+
+# This exists only because Windows is a brain-dead piece of shit
+# whose POSIX::strftime seems to not support %s to turn a list
+# of second/minute/hour/day/month-1/year-1900 into epoch seconds
+sub _to_epoch {
+    my($class, $year, $month, $day, $hour, $minute, $second) = @_;
+    die("Ancient history! $year\n") if($year < 1970);
+
+    my $epoch = 0;
+    foreach my $this_year (1970 .. $year) {
+        my @month_days = (0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+        $month_days[2] += 1 if($class->_is_leap($this_year));
+        $epoch += $class->_sum(0, @month_days[0 .. ($this_year < $year ? 12 : $month - 1)])
+                  * 24 * 60 * 60;
+    }
+    $epoch += ($day - 1) * 24 * 60 * 60;
+    $epoch += $second + 60 * $minute + 60 * 60 * $hour;
+    return $epoch;
+}
+
+sub _is_leap {
+    my($class, $year) = @_;
+    $year % 400 == 0 || ( $year % 4 == 0 && !($year % 100 == 0) );
+}
+
+sub _sum {
+    my($class, $head, @tail) = @_;
+    $head += shift(@tail);
+    return !@tail ? $head : $class->_sum($head, @tail);
 }
 
 sub parse_datetime {
@@ -45,8 +73,8 @@ sub parse_datetime {
         $hour   //= 0;
         $minute //= 0;
         $second //= 0;
-        return $class->from_epoch(epoch => strftime(
-            "%s", $second, $minute, $hour, $day, $month - 1, $year - 1900
+        return $class->from_epoch(epoch => $class->_to_epoch(
+            $year, $month, $day, $hour, $minute, $second
         ));
     }
     die("'$dt_string' isn't a valid date/time");

@@ -16,7 +16,6 @@ WriteMakefile(
     'Module::Load'              => 0,
     'Devel::Hide'               => 0.0015,
     'Devel::CheckOS'            => 1.95, # HWCapabilities::Int{32,64}
-	'POSIX'                     => 0,
     'Scalar::Util'              => 0,
   },
 );
