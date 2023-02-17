@@ -1,3 +1,7 @@
+1.101     XXXX-XX-XX
+
+- Compatibility with perl 5.8
+
 1.100     2023-02-16
 
 - Remove dependency on DateTime ecosystem as it has too many deps

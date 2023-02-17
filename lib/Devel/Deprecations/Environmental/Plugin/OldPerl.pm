@@ -7,7 +7,7 @@ use base 'Devel::Deprecations::Environmental';
 
 use Config;
 
-our $VERSION = '1.000';
+our $VERSION = '1.001';
 
 =head1 NAME
 

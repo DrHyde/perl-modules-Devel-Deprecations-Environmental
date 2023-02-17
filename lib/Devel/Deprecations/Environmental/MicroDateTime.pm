@@ -10,7 +10,7 @@ use overload (
     fallback => 1,
 );
 
-our $VERSION = '1.000';
+our $VERSION = '1.101';
 
 sub _spaceship {
     my($self, $other, $swap) = @_;
@@ -70,9 +70,9 @@ sub parse_datetime {
         )?
     $/x) {
         my($year, $month, $day, $hour, $minute, $second) = ($1, $2, $3, $4, $5, $6);
-        $hour   //= 0;
-        $minute //= 0;
-        $second //= 0;
+        $hour   ||= 0;
+        $minute ||= 0;
+        $second ||= 0;
         return $class->from_epoch(epoch => $class->_to_epoch(
             $year, $month, $day, $hour, $minute, $second
         ));

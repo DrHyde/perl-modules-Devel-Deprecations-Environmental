@@ -7,7 +7,7 @@ use Devel::Deprecations::Environmental::MicroDateTime;
 use Module::Load ();
 use Scalar::Util qw(blessed);
 
-our $VERSION = '1.100';
+our $VERSION = '1.101';
 
 =head1 NAME
 
