@@ -1,6 +1,4 @@
-.travis.yml
 ^\.git
-.appveyor.yml
-.cirrus.yml
+^workflow-templates
 t/coverage.sh
 cover_db/
