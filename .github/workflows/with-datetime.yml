@@ -1,16 +1,21 @@
-on: [push, pull_request]
-name: With DateTime::Format::ISO8601
+# Auto-generated file, see workflow-templates/with-datetime.yml
 
+on:
+  push:
+    paths:
+      - '.github/workflows/macos.yml'
+      - '.github/workflows/run-macos'
+name: With DateTime::Format::ISO8601
 jobs:
   build:
-    runs-on: 'macos-15'
+    runs-on: 'macos-latest'
     steps:
       - uses: actions/checkout@v6
       - name: Setup Perl environment
         uses: shogo82148/actions-setup-perl@v1
       - name: Test and build
         run: |
-          cpanm --installdeps .
           cpanm DateTime::Format::ISO8601
+          cpanm --installdeps .
           perl Makefile.PL
           make test
