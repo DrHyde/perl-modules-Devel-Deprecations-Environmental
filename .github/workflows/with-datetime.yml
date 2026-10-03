@@ -1,13 +1,18 @@
 # Auto-generated file, see workflow-templates/with-datetime.yml
+# To rebuild, see rebuild-workflows in https://github.com/DrHyde/meta-perlmodules
 
 on:
   push:
     paths:
       - '.github/workflows/macos.yml'
       - '.github/workflows/run-macos'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 name: With DateTime::Format::ISO8601
 jobs:
   build:
+    if: github.actor != 'dependabot[bot]'
     runs-on: 'macos-latest'
     steps:
       - uses: actions/checkout@v7
